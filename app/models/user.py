@@ -12,7 +12,16 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
+    token = db.Column(db.integer, default=3)
+    profile_url = db.Column(db.String(255), nullable=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    updated_at = db.Column(db.DateTime, server_default=db.func.now(),
+                           server_onupdate=db.func.now())
+
+    files = db.relationship('File', back_populates='user', cascade='all, delete-orphan')
+
+    addons = db.relationship('Addon', back_populates='user', cascade='all, delete-orphan')
 
     @property
     def password(self):
@@ -29,5 +38,9 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'token': self.token,
+            'profile_url': self.profile_url,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
         }
