@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
-    token = db.Column(db.integer, default=3)
+    token = db.Column(db.Integer, default=3)
     profile_url = db.Column(db.String(255), nullable=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
